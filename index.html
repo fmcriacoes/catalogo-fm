@@ -1,0 +1,1811 @@
+<!doctype html>
+<html lang="pt-BR">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Catálogo Premium - F/M Criações</title>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+			rel="stylesheet"
+		/>
+		<style>
+			:root {
+				--bg-color: #f9f9f6;
+				--text-main: #3a3532;
+				--text-light: #7a726d;
+				--white: #ffffff;
+				--accent: #a38f85;
+				--whatsapp: #25d366;
+			}
+
+			html {
+				scroll-behavior: smooth;
+			} /* Efeito de rolagem suave e chique */
+
+			img {
+				/* Força o navegador a manter a nitidez de bordas e textos */
+				image-rendering: -webkit-optimize-contrast;
+				image-rendering: crisp-edges;
+				image-rendering: high-quality;
+
+				/* Melhora a filtragem de pixel do hardware */
+				transform: translateZ(0);
+				backface-visibility: hidden;
+			}
+
+			/* Botão Flutuante do Carrinho (Só aparece no celular) */
+			#btn-flutuante-carrinho {
+				position: fixed;
+				bottom: 20px;
+				right: 20px;
+				background-color: var(--text-main);
+				color: var(--white);
+				padding: 15px 25px;
+				border-radius: 50px;
+				text-decoration: none;
+				font-family: 'Montserrat', sans-serif;
+				font-weight: 600;
+				box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+				z-index: 999;
+				display: none; /* Escondido por padrão */
+				align-items: center;
+				gap: 8px;
+				transition: transform 0.3s;
+			}
+
+			#btn-flutuante-carrinho:active {
+				transform: scale(0.95);
+			}
+
+			#btn-flutuante-carrinho.mostrar {
+				display: flex;
+			}
+
+			/* Esconde o botão se a tela for de computador (pois o carrinho já está ao lado) */
+			@media (min-width: 769px) {
+				#btn-flutuante-carrinho.mostrar {
+					display: none;
+				}
+			}
+
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+
+			body {
+				font-family: 'Montserrat', sans-serif;
+				background-color: var(--bg-color);
+				color: var(--text-main);
+				line-height: 1.6;
+			}
+
+			header {
+				text-align: center;
+				padding: 40px 20px;
+				background-color: var(--white);
+				box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+			}
+
+			header h1 {
+				font-family: 'Playfair Display', serif;
+				font-weight: 400;
+				font-size: 2.5rem;
+				color: var(--text-main);
+			}
+
+			header p {
+				color: var(--text-light);
+				font-size: 0.9rem;
+				margin-top: 10px;
+			}
+
+			.container {
+				display: flex;
+				max-width: 1200px;
+				margin: 40px auto;
+				padding: 0 20px;
+				gap: 40px;
+				align-items: flex-start;
+			}
+
+			.vitrine {
+				flex: 2;
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+				gap: 30px;
+			}
+
+			.categoria-titulo {
+				width: 100%;
+				font-family: 'Playfair Display', serif;
+				font-size: 2rem;
+				color: var(--text-main);
+				margin: 30px 0 10px 0;
+				border-bottom: 1px solid #eaeaea;
+				padding-bottom: 10px;
+				grid-column: 1 / -1;
+			}
+
+			.produto {
+				background: var(--white);
+				border-radius: 8px;
+				padding: 20px;
+				box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+				transition: transform 0.3s ease;
+			}
+
+			.produto:hover {
+				transform: translateY(-5px);
+			}
+
+			.produto-img {
+				width: 100%;
+				height: 250px;
+				background-color: #eee;
+				border-radius: 4px;
+				object-fit: cover;
+				margin-bottom: 15px;
+			}
+
+			.produto h3 {
+				font-family: 'Playfair Display', serif;
+				font-size: 1.3rem;
+				margin-bottom: 4px;
+				line-height: 1.3;
+			}
+
+			.prod-desc-curta {
+				font-size: 0.85rem;
+				color: var(--text-light);
+				margin-bottom: 5px;
+			}
+
+			.prod-a-partir {
+				font-size: 0.9rem;
+				color: var(--text-light);
+				margin-bottom: 15px;
+			}
+
+			.prod-a-partir strong {
+				font-size: 1.2rem;
+				color: var(--text-main);
+				font-weight: 600;
+			}
+
+			button.add-btn {
+				width: 100%;
+				background-color: var(--text-main);
+				color: var(--white);
+				border: none;
+				padding: 12px;
+				border-radius: 4px;
+				font-family: 'Montserrat', sans-serif;
+				font-weight: 600;
+				cursor: pointer;
+				transition: background 0.3s;
+			}
+
+			button.add-btn:hover {
+				background-color: var(--accent);
+			}
+
+			.carrinho {
+				flex: 1;
+				background: var(--white);
+				padding: 30px;
+				border-radius: 8px;
+				box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+				position: sticky;
+				top: 20px;
+			}
+
+			.carrinho h2 {
+				font-family: 'Playfair Display', serif;
+				border-bottom: 1px solid #eaeaea;
+				padding-bottom: 15px;
+				margin-bottom: 20px;
+			}
+
+			#lista-carrinho {
+				list-style: none;
+				margin-bottom: 20px;
+			}
+
+			.item-carrinho {
+				display: flex;
+				justify-content: space-between;
+				font-size: 0.9rem;
+				margin-bottom: 10px;
+				color: var(--text-light);
+			}
+
+			.remove-btn {
+				background: none;
+				border: none;
+				color: #a34a4a;
+				cursor: pointer;
+				font-size: 0.75rem;
+				margin-left: 8px;
+				text-decoration: underline;
+				font-family: 'Montserrat', sans-serif;
+			}
+			.remove-btn:hover {
+				color: #c13b3b;
+			}
+
+			.total {
+				display: flex;
+				justify-content: space-between;
+				font-weight: 600;
+				font-size: 1.2rem;
+				border-top: 1px solid #eaeaea;
+				padding-top: 15px;
+				margin-bottom: 20px;
+			}
+
+			button.checkout-btn {
+				width: 100%;
+				background-color: var(--whatsapp);
+				color: var(--white);
+				border: none;
+				padding: 15px;
+				border-radius: 4px;
+				font-family: 'Montserrat', sans-serif;
+				font-weight: 600;
+				font-size: 1rem;
+				cursor: pointer;
+				transition: background 0.3s;
+			}
+			button.checkout-btn:hover {
+				background-color: #128c7e;
+			}
+			.vazio {
+				text-align: center;
+				color: var(--text-light);
+				font-size: 0.9rem;
+				font-style: italic;
+			}
+
+			.modal-overlay,
+			.quickview-overlay {
+				display: none;
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: rgba(58, 53, 50, 0.7);
+				z-index: 1000;
+				justify-content: center;
+				align-items: center;
+				opacity: 0;
+				transition: opacity 0.3s ease;
+			}
+			.quickview-overlay {
+				z-index: 2000;
+				padding: 20px;
+			}
+			.modal-overlay.ativo,
+			.quickview-overlay.ativo {
+				display: flex;
+				opacity: 1;
+			}
+
+			.modal-content {
+				background: var(--white);
+				padding: 40px 30px;
+				border-radius: 8px;
+				text-align: center;
+				max-width: 400px;
+				width: 90%;
+				box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+				transform: translateY(-20px);
+				transition: transform 0.3s ease;
+			}
+			.modal-overlay.ativo .modal-content {
+				transform: translateY(0);
+			}
+			.modal-content h3 {
+				font-family: 'Playfair Display', serif;
+				color: var(--text-main);
+				margin-bottom: 15px;
+				font-size: 1.6rem;
+			}
+			.modal-content p {
+				color: var(--text-light);
+				margin-bottom: 25px;
+				font-size: 0.95rem;
+			}
+
+			button.fechar-btn {
+				background-color: var(--text-main);
+				color: var(--white);
+				border: none;
+				padding: 12px 25px;
+				border-radius: 4px;
+				font-family: 'Montserrat', sans-serif;
+				font-weight: 600;
+				cursor: pointer;
+				transition: background 0.3s;
+			}
+			button.fechar-btn:hover {
+				background-color: var(--accent);
+			}
+
+			.quickview-content {
+				background: var(--white);
+				border-radius: 8px;
+				max-width: 800px;
+				width: 100%;
+				display: flex;
+				box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+				overflow: hidden;
+				position: relative;
+				transform: scale(0.95);
+				transition: transform 0.3s ease;
+			}
+			.quickview-overlay.ativo .quickview-content {
+				transform: scale(1);
+			}
+			.quickview-img-area {
+				flex: 1;
+				background-color: #efebe8;
+				min-height: 350px;
+			}
+			.quickview-img-area img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+
+			.quickview-info {
+				flex: 1;
+				padding: 40px;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				overflow-y: auto;
+				max-height: 90vh;
+			}
+			.quickview-info h3 {
+				font-family: 'Playfair Display', serif;
+				font-size: 1.8rem;
+				color: var(--text-main);
+				margin-bottom: 5px;
+			}
+			.quickview-info > p {
+				color: var(--text-main);
+				font-size: 0.95rem;
+				margin-bottom: 20px;
+				line-height: 1.6;
+			}
+
+			.qv-specs-list {
+				list-style: none;
+				padding: 15px;
+				background-color: #f9f9f6;
+				border-radius: 6px;
+				margin-bottom: 20px;
+				font-size: 0.85rem;
+				border: 1px solid #eaeaea;
+			}
+			.qv-specs-list li {
+				margin-bottom: 6px;
+				color: var(--text-main);
+			}
+			.qv-specs-list li strong {
+				color: var(--text-light);
+				margin-right: 5px;
+			}
+
+			.quickview-close {
+				position: absolute;
+				top: 15px;
+				right: 20px;
+				font-size: 1.5rem;
+				color: var(--text-light);
+				background: none;
+				border: none;
+				cursor: pointer;
+				z-index: 10;
+			}
+			.quickview-close:hover {
+				color: var(--text-main);
+			}
+
+			.select-qtd {
+				width: 100%;
+				padding: 12px;
+				margin-bottom: 15px;
+				border: 1px solid #eaeaea;
+				border-radius: 4px;
+				font-family: 'Montserrat', sans-serif;
+				color: var(--text-main);
+				background-color: var(--white);
+				cursor: pointer;
+				outline: none;
+				font-size: 0.95rem;
+			}
+			.select-qtd:focus {
+				border-color: var(--accent);
+			}
+
+			@media (max-width: 768px) {
+				.container {
+					flex-direction: column;
+				}
+				.carrinho {
+					width: 100%;
+					position: relative;
+					top: 0;
+				}
+				.quickview-content {
+					background: var(--white);
+					border-radius: 8px;
+					max-width: 800px;
+					width: 100%;
+					display: flex;
+					box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+					position: relative;
+					transform: scale(0.95);
+					transition: transform 0.3s ease;
+					/* A mágica do rolamento: permite arrastar a janela para cima se for grande */
+					max-height: 90vh;
+					overflow-y: auto;
+				}
+				.quickview-overlay.ativo .quickview-content {
+					transform: scale(1);
+				}
+				.quickview-img-area {
+					flex: 1;
+					background-color: #efebe8;
+					min-height: 350px;
+				}
+				.quickview-img-area img {
+					width: 100%;
+					height: 100%;
+					object-fit: cover;
+				}
+
+				.quickview-info {
+					flex: 1;
+					padding: 40px;
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+				}
+				.quickview-info h3 {
+					font-family: 'Playfair Display', serif;
+					font-size: 1.8rem;
+					color: var(--text-main);
+					margin-bottom: 5px;
+				}
+				.quickview-info > p {
+					color: var(--text-main);
+					font-size: 0.95rem;
+					margin-bottom: 20px;
+					line-height: 1.6;
+				}
+
+				.qv-specs-list {
+					list-style: none;
+					padding: 15px;
+					background-color: #f9f9f6;
+					border-radius: 6px;
+					margin-bottom: 20px;
+					font-size: 0.85rem;
+					border: 1px solid #eaeaea;
+				}
+				.qv-specs-list li {
+					margin-bottom: 6px;
+					color: var(--text-main);
+				}
+				.qv-specs-list li strong {
+					color: var(--text-light);
+					margin-right: 5px;
+				}
+
+				/* Botão de fechar melhorado com bolinha branca */
+				.quickview-close {
+					position: absolute;
+					top: 15px;
+					right: 15px;
+					font-size: 1.2rem;
+					color: var(--text-main);
+					background: var(--white);
+					border: none;
+					cursor: pointer;
+					z-index: 10;
+					width: 35px;
+					height: 35px;
+					border-radius: 50%;
+					box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+				.quickview-close:hover {
+					background: #eee;
+				}
+
+				.select-qtd {
+					width: 100%;
+					padding: 12px;
+					margin-bottom: 15px;
+					border: 1px solid #eaeaea;
+					border-radius: 4px;
+					font-family: 'Montserrat', sans-serif;
+					color: var(--text-main);
+					background-color: var(--white);
+					cursor: pointer;
+					outline: none;
+					font-size: 0.95rem;
+				}
+				.select-qtd:focus {
+					border-color: var(--accent);
+				}
+
+				@media (max-width: 768px) {
+					.container {
+						flex-direction: column;
+					}
+					.carrinho {
+						width: 100%;
+						position: relative;
+						top: 0;
+					}
+					.quickview-content {
+						flex-direction: column;
+					}
+					/* Diminuímos a foto no celular para os textos e botões caberem na tela */
+					.quickview-img-area {
+						min-height: 180px;
+						height: 180px;
+					}
+					.quickview-info {
+						padding: 20px;
+					}
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<h1>F/M Criações</h1>
+			<p>Design que deixa a sua marca com cara de loja cara.</p>
+
+			<button
+				onclick="abrirModalInfo()"
+				style="
+					background: none;
+					border: 1px solid var(--accent);
+					color: var(--accent);
+					padding: 8px 20px;
+					border-radius: 20px;
+					font-family: 'Montserrat', sans-serif;
+					font-size: 0.8rem;
+					margin-top: 15px;
+					cursor: pointer;
+					transition: 0.3s;
+				"
+			>
+				Como funciona o pedido?
+			</button>
+		</header>
+
+		<div class="container">
+			<div class="vitrine">
+				<h2 class="categoria-titulo">Tags para Roupas</h2>
+
+				<div class="produto" id="prod-tag-mini">
+					<img src="img/mini tag.jpeg" alt="Mini Tag" class="produto-img" />
+					<h3 class="prod-nome">Mini Tag</h3>
+					<p class="prod-desc-curta">Papel couchê 250g</p>
+					<p class="prod-a-partir">a partir de <strong>R$ 99,00</strong></p>
+
+					<div class="dados-modal" style="display: none">
+						<div class="m-desc">
+							A opção perfeita para quem busca um visual limpo e sofisticado.
+							Ideal para precificação sem poluir a estética da sua peça.
+						</div>
+						<ul class="m-specs">
+							<li><strong>Papel:</strong> Couchê 250g</li>
+							<li><strong>Impressão:</strong> Frente e verso</li>
+							<li><strong>Acabamento:</strong> Verniz total frente</li>
+							<li><strong>Tamanho:</strong> Mini Padrão</li>
+						</ul>
+						<div class="m-opcoes">
+							<option value="0.00" disabled selected>
+								Escolha a quantidade...
+							</option>
+							<option value="99.90" data-qtd="250 un">
+								250 unidades - R$ 99,90
+							</option>
+							<option value="142.00" data-qtd="500 un">
+								500 unidades - R$ 142,00
+							</option>
+							<option value="185.00" data-qtd="1000 un">
+								1000 unidades - R$ 185,00
+							</option>
+						</div>
+					</div>
+					<button class="add-btn" onclick="abrirQuickView('prod-tag-mini')">
+						Ver opções
+					</button>
+				</div>
+
+				<div class="produto" id="prod-tag-mini-redonda">
+					<img
+						src="img/mini tag redonda.jpeg"
+						alt="Mini Tag Redonda"
+						class="produto-img"
+					/>
+					<h3 class="prod-nome">Mini Tag Redonda</h3>
+					<p class="prod-desc-curta">Corte especial arredondado</p>
+					<p class="prod-a-partir">a partir de <strong>R$ 129,00</strong></p>
+
+					<div class="dados-modal" style="display: none">
+						<div class="m-desc">
+							Quebre a monotonia com um corte circular elegante. Um detalhe
+							sutil que diferencia a sua marca logo no primeiro toque.
+						</div>
+						<ul class="m-specs">
+							<li><strong>Papel:</strong> Couchê 250g</li>
+							<li><strong>Impressão:</strong> Frente e verso</li>
+							<li>
+								<strong>Acabamento:</strong> Verniz total frente e Corte Redondo
+							</li>
+							<li><strong>Tamanho:</strong> Mini Circular</li>
+						</ul>
+						<div class="m-opcoes">
+							<option value="0.00" disabled selected>
+								Escolha a quantidade...
+							</option>
+							<option value="129.00" data-qtd="200 un">
+								200 unidades - R$ 129,00
+							</option>
+							<option value="198.00" data-qtd="500 un">
+								500 unidades - R$ 198,00
+							</option>
+							<option value="266.00" data-qtd="1000 un">
+								1000 unidades - R$ 266,00
+							</option>
+						</div>
+					</div>
+					<button
+						class="add-btn"
+						onclick="abrirQuickView('prod-tag-mini-redonda')"
+					>
+						Ver opções
+					</button>
+				</div>
+
+				<div class="produto" id="prod-tag-retangular">
+					<img
+						src="img/tag retangular classica.jpeg"
+						alt="Tag Retangular"
+						class="produto-img"
+					/>
+					<h3 class="prod-nome">Tag Retangular Clássica</h3>
+					<p class="prod-desc-curta">O modelo clássico de sucesso</p>
+					<p class="prod-a-partir">a partir de <strong>R$ 99,90</strong></p>
+
+					<div class="dados-modal" style="display: none">
+						<div class="m-desc">
+							A clássica tag de moda que agrega valor imediato à sua peça.
+							Espaço perfeito para sua marca e informações de cuidados.
+						</div>
+						<ul class="m-specs">
+							<li><strong>Papel:</strong> Couchê 250g</li>
+							<li><strong>Impressão:</strong> Frente e verso</li>
+							<li><strong>Acabamento:</strong> Verniz total frente</li>
+							<li><strong>Tamanho:</strong> Retangular Padrão</li>
+						</ul>
+						<div class="m-opcoes">
+							<option value="0.00" disabled selected>
+								Escolha a quantidade...
+							</option>
+							<option value="99.90" data-qtd="100 un">
+								100 unidades - R$ 99,90
+							</option>
+							<option value="119.00" data-qtd="250 un">
+								250 unidades - R$ 119,00
+							</option>
+							<option value="179.00" data-qtd="500 un">
+								500 unidades - R$ 179,00
+							</option>
+							<option value="220.00" data-qtd="1000 un">
+								1000 unidades - R$ 220,00
+							</option>
+						</div>
+					</div>
+					<button
+						class="add-btn"
+						onclick="abrirQuickView('prod-tag-retangular')"
+					>
+						Ver opções
+					</button>
+				</div>
+
+				<div class="produto" id="prod-tag-retangular-especial">
+					<img
+						src="img/tag corte especial.jpeg"
+						alt="Tag Especial"
+						class="produto-img"
+					/>
+					<h3 class="prod-nome">Tag Corte Especial</h3>
+					<p class="prod-desc-curta">Acabamento premium diferenciado</p>
+					<p class="prod-a-partir">a partir de <strong>R$ 150,00</strong></p>
+
+					<div class="dados-modal" style="display: none">
+						<div class="m-desc">
+							Uma tag que é uma verdadeira joia. O corte especial (podendo ter
+							diferentes formatos) eleva o padrão visual das suas coleções.
+						</div>
+						<ul class="m-specs">
+							<li><strong>Papel:</strong> Couchê 250g</li>
+							<li><strong>Impressão:</strong> Frente e verso</li>
+							<li>
+								<strong>Acabamento:</strong> Verniz total frente e Corte
+								Especial
+							</li>
+							<li><strong>Tamanho:</strong> Retangular</li>
+						</ul>
+						<div class="m-opcoes">
+							<option value="0.00" disabled selected>
+								Escolha a quantidade...
+							</option>
+							<option value="150.00" data-qtd="100 un">
+								100 unidades - R$ 150,00
+							</option>
+							<option value="162.00" data-qtd="250 un">
+								250 unidades - R$ 162,00
+							</option>
+							<option value="200.00" data-qtd="500 un">
+								500 unidades - R$ 200,00
+							</option>
+							<option value="240.00" data-qtd="1000 un">
+								1000 unidades - R$ 240,00
+							</option>
+						</div>
+					</div>
+					<button
+						class="add-btn"
+						onclick="abrirQuickView('prod-tag-retangular-especial')"
+					>
+						Ver opções
+					</button>
+				</div>
+
+				<h2 class="categoria-titulo">Adesivos</h2>
+
+				<div class="produto" id="prod-adesivo-5x5">
+					<img
+						src="img/adesivo 5x5.jpeg"
+						alt="Adesivo 5x5"
+						class="produto-img"
+					/>
+					<h3 class="prod-nome">Adesivo 5x5 cm</h3>
+					<p class="prod-desc-curta">Papel Couchê Brilho</p>
+					<p class="prod-a-partir">a partir de <strong>R$ 71,00</strong></p>
+
+					<div class="dados-modal" style="display: none">
+						<div class="m-desc">
+							O detalhe que transforma qualquer caixa ou seda em uma embalagem
+							com a sua assinatura. Ideal para unboxing inesquecível.
+						</div>
+						<ul class="m-specs">
+							<li><strong>Papel:</strong> Adesivo Couchê</li>
+							<li><strong>Impressão:</strong> Colorida Frente</li>
+							<li><strong>Acabamento:</strong> Brilho</li>
+							<li><strong>Tamanho:</strong> 5x5 cm</li>
+						</ul>
+						<div class="m-opcoes">
+							<option value="0.00" disabled selected>
+								Escolha a quantidade...
+							</option>
+							<option value="71.00" data-qtd="100 un">
+								100 unidades - R$ 71,00
+							</option>
+							<option value="129.00" data-qtd="250 un">
+								250 unidades - R$ 129,00
+							</option>
+							<option value="186.00" data-qtd="500 un">
+								500 unidades - R$ 186,00
+							</option>
+							<option value="348.00" data-qtd="1000 un">
+								1000 unidades - R$ 348,00
+							</option>
+						</div>
+					</div>
+					<button class="add-btn" onclick="abrirQuickView('prod-adesivo-5x5')">
+						Ver opções
+					</button>
+				</div>
+
+				<div class="produto" id="prod-adesivo-3x3">
+					<img
+						src="img/adesivo 3x3.jpeg"
+						alt="Adesivo 3x3"
+						class="produto-img"
+					/>
+					<h3 class="prod-nome">Adesivo 3x3 cm</h3>
+					<p class="prod-desc-curta">Papel Couchê Brilho</p>
+					<p class="prod-a-partir">a partir de <strong>R$ 59,00</strong></p>
+
+					<div class="dados-modal" style="display: none">
+						<div class="m-desc">
+							Pequeno, delicado e versátil. Perfeito para selar papéis de seda
+							menores ou criar marcações charmosas nos seus pacotes.
+						</div>
+						<ul class="m-specs">
+							<li><strong>Papel:</strong> Adesivo Couchê</li>
+							<li><strong>Impressão:</strong> Colorida Frente</li>
+							<li><strong>Acabamento:</strong> Brilho</li>
+							<li><strong>Tamanho:</strong> 3x3 cm</li>
+						</ul>
+						<div class="m-opcoes">
+							<option value="0.00" disabled selected>
+								Escolha a quantidade...
+							</option>
+							<option value="59.00" data-qtd="100 un">
+								100 unidades - R$ 59,00
+							</option>
+							<option value="81.00" data-qtd="250 un">
+								250 unidades - R$ 81,00
+							</option>
+							<option value="130.00" data-qtd="500 un">
+								500 unidades - R$ 130,00
+							</option>
+							<option value="220.00" data-qtd="1000 un">
+								1000 unidades - R$ 220,00
+							</option>
+						</div>
+					</div>
+					<button class="add-btn" onclick="abrirQuickView('prod-adesivo-3x3')">
+						Ver opções
+					</button>
+				</div>
+
+				<h2 class="categoria-titulo">Cartões & Experiência</h2>
+
+				<div class="produto" id="prod-cartao-visita">
+					<img
+						src="img/cartao visita.jpeg"
+						alt="Cartão Visita"
+						class="produto-img"
+					/>
+					<h3 class="prod-nome">Cartão de Visita</h3>
+					<p class="prod-desc-curta">Papel couchê 250g brilho</p>
+					<p class="prod-a-partir">a partir de <strong>R$ 102,00</strong></p>
+
+					<div class="dados-modal" style="display: none">
+						<div class="m-desc">
+							Networking com elegância. Um cartão firme que transmite segurança
+							e luxo na hora de entregar o seu contato.
+						</div>
+						<ul class="m-specs">
+							<li><strong>Papel:</strong> Couchê 250g</li>
+							<li><strong>Impressão:</strong> Frente e verso</li>
+							<li><strong>Acabamento:</strong> Brilho total</li>
+							<li><strong>Tamanho:</strong> Padrão</li>
+						</ul>
+						<div class="m-opcoes">
+							<option value="0.00" disabled selected>
+								Escolha a quantidade...
+							</option>
+							<option value="102.00" data-qtd="100 un">
+								100 unidades - R$ 102,00
+							</option>
+							<option value="120.00" data-qtd="250 un">
+								250 unidades - R$ 120,00
+							</option>
+							<option value="159.00" data-qtd="500 un">
+								500 unidades - R$ 159,00
+							</option>
+							<option value="210.00" data-qtd="1000 un">
+								1000 unidades - R$ 210,00
+							</option>
+						</div>
+					</div>
+					<button
+						class="add-btn"
+						onclick="abrirQuickView('prod-cartao-visita')"
+					>
+						Ver opções
+					</button>
+				</div>
+
+				<div class="produto" id="prod-certificado">
+					<img
+						src="img/certificado.jpg"
+						alt="Certificado"
+						class="produto-img"
+					/>
+					<h3 class="prod-nome">Certificado de Garantia</h3>
+					<p class="prod-desc-curta">Frente Colorida, Verso P/B</p>
+					<p class="prod-a-partir">a partir de <strong>R$ 110,00</strong></p>
+
+					<div class="dados-modal" style="display: none">
+						<div class="m-desc">
+							Demonstre a qualidade e a procedência das suas peças com um
+							certificado que passa confiança total para a sua cliente.
+						</div>
+						<ul class="m-specs">
+							<li><strong>Papel:</strong> Couchê 250g</li>
+							<li>
+								<strong>Impressão:</strong> Frente colorida / Verso Preto e
+								Branco
+							</li>
+							<li><strong>Acabamento:</strong> Padrão</li>
+							<li><strong>Tamanho:</strong> Padrão Certificado</li>
+						</ul>
+						<div class="m-opcoes">
+							<option value="0.00" disabled selected>
+								Escolha a quantidade...
+							</option>
+							<option value="110.00" data-qtd="250 un">
+								250 unidades - R$ 110,00
+							</option>
+							<option value="144.00" data-qtd="500 un">
+								500 unidades - R$ 144,00
+							</option>
+							<option value="199.00" data-qtd="1000 un">
+								1000 unidades - R$ 199,00
+							</option>
+						</div>
+					</div>
+					<button class="add-btn" onclick="abrirQuickView('prod-certificado')">
+						Ver opções
+					</button>
+				</div>
+
+				<div class="produto" id="prod-cartao-agradecimento">
+					<img
+						src="img/cartao agradecimento.jpeg"
+						alt="Cartão Agradecimento"
+						class="produto-img"
+					/>
+					<h3 class="prod-nome">Cartão Agradecimento</h3>
+					<p class="prod-desc-curta">Formato 9x10 cm</p>
+					<p class="prod-a-partir">a partir de <strong>R$ 132,00</strong></p>
+
+					<div class="dados-modal" style="display: none">
+						<div class="m-desc">
+							Aumente a retenção e encante suas clientes. Um cartão bem escrito
+							e luxuoso gera conexão e incentiva postagens nas redes sociais.
+						</div>
+						<ul class="m-specs">
+							<li><strong>Papel:</strong> Couchê 250g</li>
+							<li><strong>Impressão:</strong> Frente e verso</li>
+							<li><strong>Tamanho:</strong> 9x10 cm</li>
+						</ul>
+						<div class="m-opcoes">
+							<option value="0.00" disabled selected>
+								Escolha a quantidade...
+							</option>
+							<option value="132.00" data-qtd="100 un">
+								100 unidades - R$ 132,00
+							</option>
+							<option value="146.00" data-qtd="250 un">
+								250 unidades - R$ 146,00
+							</option>
+							<option value="180.00" data-qtd="500 un">
+								500 unidades - R$ 180,00
+							</option>
+							<option value="290.00" data-qtd="1000 un">
+								1000 unidades - R$ 290,00
+							</option>
+						</div>
+					</div>
+					<button
+						class="add-btn"
+						onclick="abrirQuickView('prod-cartao-agradecimento')"
+					>
+						Ver opções
+					</button>
+				</div>
+
+				<h2 class="categoria-titulo">Cartelas para Joias & Semijoias</h2>
+
+				<div class="produto" id="prod-tag-1-brinco">
+					<img
+						src="img/tag 1 par.jpeg"
+						alt="Tag 1 Brinco"
+						class="produto-img"
+					/>
+					<h3 class="prod-nome">Tag 1 Par de Brinco</h3>
+					<p class="prod-desc-curta">Formato 4x5 cm</p>
+					<p class="prod-a-partir">a partir de <strong>R$ 128,00</strong></p>
+
+					<div class="dados-modal" style="display: none">
+						<div class="m-desc">
+							Exiba suas peças com sofisticação. Furação exata para manter o
+							brinco centralizado, valorizando o brilho do seu produto.
+						</div>
+						<ul class="m-specs">
+							<li><strong>Papel:</strong> Couchê 250g</li>
+							<li><strong>Impressão:</strong> Frente e verso</li>
+							<li><strong>Acabamento:</strong> Furos para 1 par</li>
+							<li><strong>Tamanho:</strong> 4x5 cm</li>
+						</ul>
+						<div class="m-opcoes">
+							<option value="0.00" disabled selected>
+								Escolha a quantidade...
+							</option>
+							<option value="128.00" data-qtd="100 un">
+								100 unidades - R$ 128,00
+							</option>
+							<option value="150.00" data-qtd="200 un">
+								200 unidades - R$ 150,00
+							</option>
+							<option value="174.00" data-qtd="500 un">
+								500 unidades - R$ 174,00
+							</option>
+							<option value="200.00" data-qtd="1000 un">
+								1000 unidades - R$ 200,00
+							</option>
+						</div>
+					</div>
+					<button class="add-btn" onclick="abrirQuickView('prod-tag-1-brinco')">
+						Ver opções
+					</button>
+				</div>
+
+				<div class="produto" id="prod-tag-argolas">
+					<img
+						src="img/tag trio argolas.jpeg"
+						alt="Trio Argolas"
+						class="produto-img"
+					/>
+					<h3 class="prod-nome">Tag Trio Argolas</h3>
+					<p class="prod-desc-curta">Formato Horizontal 8,5x4,5 cm</p>
+					<p class="prod-a-partir">a partir de <strong>R$ 175,00</strong></p>
+
+					<div class="dados-modal" style="display: none">
+						<div class="m-desc">
+							A cartela ideal para exibir mix e conjuntos. Furação e espaçamento
+							pensados para argolas, evitando que as peças se enrosquem.
+						</div>
+						<ul class="m-specs">
+							<li><strong>Papel:</strong> Couchê 250g</li>
+							<li><strong>Impressão:</strong> Frente e verso</li>
+							<li><strong>Acabamento:</strong> Furação para Trio</li>
+							<li><strong>Tamanho:</strong> 8,5 x 4,5 cm</li>
+						</ul>
+						<div class="m-opcoes">
+							<option value="0.00" disabled selected>
+								Escolha a quantidade...
+							</option>
+							<option value="175.00" data-qtd="100 un">
+								100 unidades - R$ 175,00
+							</option>
+							<option value="195.00" data-qtd="250 un">
+								250 unidades - R$ 195,00
+							</option>
+							<option value="225.00" data-qtd="500 un">
+								500 unidades - R$ 225,00
+							</option>
+							<option value="260.00" data-qtd="1000 un">
+								1000 unidades - R$ 260,00
+							</option>
+						</div>
+					</div>
+					<button class="add-btn" onclick="abrirQuickView('prod-tag-argolas')">
+						Ver opções
+					</button>
+				</div>
+
+				<div class="produto" id="prod-tag-gravatinha">
+					<img
+						src="img/tag gravatinha.jpg"
+						alt="Tag Gravatinha"
+						class="produto-img"
+					/>
+					<h3 class="prod-nome">Tag Gravatinha</h3>
+					<p class="prod-desc-curta">Para Brinco ou Colar - 9x5 cm</p>
+					<p class="prod-a-partir">a partir de <strong>R$ 279,00</strong></p>
+
+					<div class="dados-modal" style="display: none">
+						<div class="m-desc">
+							Um design inovador para destacar correntes e pingentes, permitindo
+							que o colar tenha o caimento perfeito no seu expositor.
+						</div>
+						<ul class="m-specs">
+							<li><strong>Papel:</strong> Couchê 250g</li>
+							<li><strong>Impressão:</strong> Frente e verso</li>
+							<li><strong>Acabamento:</strong> Furação e Vinco</li>
+							<li><strong>Tamanho:</strong> 9x5 cm</li>
+						</ul>
+						<div class="m-opcoes">
+							<option value="0.00" disabled selected>
+								Escolha a quantidade...
+							</option>
+							<option value="279.00" data-qtd="500 un">
+								500 unidades - R$ 279,00
+							</option>
+							<option value="390.00" data-qtd="1000 un">
+								1000 unidades - R$ 390,00
+							</option>
+						</div>
+					</div>
+					<button
+						class="add-btn"
+						onclick="abrirQuickView('prod-tag-gravatinha')"
+					>
+						Ver opções
+					</button>
+				</div>
+
+				<div class="produto" id="prod-tag-brinco-colar">
+					<img
+						src="img/1 par 1 colar.jpg"
+						alt="Brinco Colar"
+						class="produto-img"
+					/>
+					<h3 class="prod-nome">Tag 1 Brinco + Colar</h3>
+					<p class="prod-desc-curta">Formato 9x5 cm</p>
+					<p class="prod-a-partir">a partir de <strong>R$ 150,00</strong></p>
+
+					<div class="dados-modal" style="display: none">
+						<div class="m-desc">
+							A cartela completa para conjuntos. Aumente o ticket médio das suas
+							vendas entregando os kits perfeitamente harmonizados.
+						</div>
+						<ul class="m-specs">
+							<li><strong>Papel:</strong> Couchê 250g</li>
+							<li><strong>Impressão:</strong> Frente e verso</li>
+							<li><strong>Acabamento:</strong> Furação múltipla</li>
+							<li><strong>Tamanho:</strong> 9x5 cm</li>
+						</ul>
+						<div class="m-opcoes">
+							<option value="0.00" disabled selected>
+								Escolha a quantidade...
+							</option>
+							<option value="150.00" data-qtd="100 un">
+								100 unidades - R$ 150,00
+							</option>
+							<option value="174.00" data-qtd="250 un">
+								250 unidades - R$ 174,00
+							</option>
+							<option value="199.00" data-qtd="500 un">
+								500 unidades - R$ 199,00
+							</option>
+							<option value="220.00" data-qtd="1000 un">
+								1000 unidades - R$ 220,00
+							</option>
+						</div>
+					</div>
+					<button
+						class="add-btn"
+						onclick="abrirQuickView('prod-tag-brinco-colar')"
+					>
+						Ver opções
+					</button>
+				</div>
+
+				<div class="produto" id="prod-tag-anel-pulseira">
+					<img
+						src="img/tag anel.jpg"
+						alt="Tag Anel Pulseira"
+						class="produto-img"
+					/>
+					<h3 class="prod-nome">Tag Anel / Pulseira</h3>
+					<p class="prod-desc-curta">Formato Fino 1,7x3,9 cm</p>
+					<p class="prod-a-partir">a partir de <strong>R$ 124,00</strong></p>
+
+					<div class="dados-modal" style="display: none">
+						<div class="m-desc">
+							Identificação discreta e luxuosa para peças finas. Ideal para
+							anéis solitários e pulseiras delicadas, sem ofuscar a joia.
+						</div>
+						<ul class="m-specs">
+							<li><strong>Papel:</strong> Couchê 250g</li>
+							<li><strong>Impressão:</strong> Frente e verso</li>
+							<li><strong>Acabamento:</strong> Corte especial retangular</li>
+							<li><strong>Tamanho:</strong> 1,7 x 3,9 cm</li>
+						</ul>
+						<div class="m-opcoes">
+							<option value="0.00" disabled selected>
+								Escolha a quantidade...
+							</option>
+							<option value="124.00" data-qtd="100 un">
+								100 unidades - R$ 124,00
+							</option>
+							<option value="150.00" data-qtd="200 un">
+								200 unidades - R$ 150,00
+							</option>
+							<option value="174.00" data-qtd="500 un">
+								500 unidades - R$ 174,00
+							</option>
+							<option value="200.00" data-qtd="1000 un">
+								1000 unidades - R$ 200,00
+							</option>
+						</div>
+					</div>
+					<button
+						class="add-btn"
+						onclick="abrirQuickView('prod-tag-anel-pulseira')"
+					>
+						Ver opções
+					</button>
+				</div>
+
+				<div class="produto" id="prod-tag-3pares-argolinha">
+					<img
+						src="img/3 pares e argolinha.jpg"
+						alt="3 Pares Argolinha"
+						class="produto-img"
+					/>
+					<h3 class="prod-nome">Tag 3 Pares + Argolinha</h3>
+					<p class="prod-desc-curta">Formato 4,2x4,8 cm</p>
+					<p class="prod-a-partir">a partir de <strong>R$ 128,00</strong></p>
+
+					<div class="dados-modal" style="display: none">
+						<div class="m-desc">
+							Perfeita para expor coleções de brincos e pequenos kits. Furação
+							estratégica que acomoda bem tarraxas e a argolinha central.
+						</div>
+						<ul class="m-specs">
+							<li><strong>Papel:</strong> Couchê 250g</li>
+							<li><strong>Impressão:</strong> Frente e verso</li>
+							<li><strong>Acabamento:</strong> Furação especial</li>
+							<li><strong>Tamanho:</strong> 4,2 x 4,8 cm</li>
+						</ul>
+						<div class="m-opcoes">
+							<option value="0.00" disabled selected>
+								Escolha a quantidade...
+							</option>
+							<option value="128.00" data-qtd="100 un">
+								100 unidades - R$ 128,00
+							</option>
+							<option value="150.00" data-qtd="200 un">
+								200 unidades - R$ 150,00
+							</option>
+							<option value="174.00" data-qtd="500 un">
+								500 unidades - R$ 174,00
+							</option>
+							<option value="200.00" data-qtd="1000 un">
+								1000 unidades - R$ 200,00
+							</option>
+						</div>
+					</div>
+					<button
+						class="add-btn"
+						onclick="abrirQuickView('prod-tag-3pares-argolinha')"
+					>
+						Ver opções
+					</button>
+				</div>
+
+				<div class="produto" id="prod-tag-capelinha">
+					<img
+						src="img/tag capelinha.jpg"
+						alt="Tag Capelinha"
+						class="produto-img"
+					/>
+					<h3 class="prod-nome">Tag Capelinha Conjunto</h3>
+					<p class="prod-desc-curta">1 Par + Colar - 7x5 cm</p>
+					<p class="prod-a-partir">a partir de <strong>R$ 150,00</strong></p>
+
+					<div class="dados-modal" style="display: none">
+						<div class="m-desc">
+							O corte "Capelinha" (com bordas superiores chanfradas) adiciona um
+							toque clássico e elegante aos conjuntos.
+						</div>
+						<ul class="m-specs">
+							<li><strong>Papel:</strong> Couchê 250g</li>
+							<li><strong>Impressão:</strong> Frente e verso</li>
+							<li><strong>Acabamento:</strong> Corte e furação Capelinha</li>
+							<li><strong>Tamanho:</strong> 7x5 cm</li>
+						</ul>
+						<div class="m-opcoes">
+							<option value="0.00" disabled selected>
+								Escolha a quantidade...
+							</option>
+							<option value="150.00" data-qtd="100 un">
+								100 unidades - R$ 150,00
+							</option>
+							<option value="174.00" data-qtd="250 un">
+								250 unidades - R$ 174,00
+							</option>
+							<option value="199.00" data-qtd="500 un">
+								500 unidades - R$ 199,00
+							</option>
+							<option value="220.00" data-qtd="1000 un">
+								1000 unidades - R$ 220,00
+							</option>
+						</div>
+					</div>
+					<button
+						class="add-btn"
+						onclick="abrirQuickView('prod-tag-capelinha')"
+					>
+						Ver opções
+					</button>
+				</div>
+
+				<div class="produto" id="prod-tag-mini-capelinha">
+					<img
+						src="img/mini tag capelinha.jpg"
+						alt="Mini Capelinha"
+						class="produto-img"
+					/>
+					<h3 class="prod-nome">Tag Mini Capelinha</h3>
+					<p class="prod-desc-curta">1 Par Brinco - 4x4 cm</p>
+					<p class="prod-a-partir">a partir de <strong>R$ 128,00</strong></p>
+
+					<div class="dados-modal" style="display: none">
+						<div class="m-desc">
+							Charme em tamanho reduzido. Ideal para brincos delicados, pontos
+							de luz e joias infantis.
+						</div>
+						<ul class="m-specs">
+							<li><strong>Papel:</strong> Couchê 250g</li>
+							<li><strong>Impressão:</strong> Frente e verso</li>
+							<li><strong>Acabamento:</strong> Corte Capelinha</li>
+							<li><strong>Tamanho:</strong> 4x4 cm</li>
+						</ul>
+						<div class="m-opcoes">
+							<option value="0.00" disabled selected>
+								Escolha a quantidade...
+							</option>
+							<option value="128.00" data-qtd="100 un">
+								100 unidades - R$ 128,00
+							</option>
+							<option value="150.00" data-qtd="250 un">
+								250 unidades - R$ 150,00
+							</option>
+							<option value="174.00" data-qtd="500 un">
+								500 unidades - R$ 174,00
+							</option>
+							<option value="200.00" data-qtd="1000 un">
+								1000 unidades - R$ 200,00
+							</option>
+						</div>
+					</div>
+					<button
+						class="add-btn"
+						onclick="abrirQuickView('prod-tag-mini-capelinha')"
+					>
+						Ver opções
+					</button>
+				</div>
+
+				<div class="produto" id="prod-tag-2pares">
+					<img
+						src="img/tag 2 pares.jpg"
+						alt="Tag 2 Pares"
+						class="produto-img"
+					/>
+					<h3 class="prod-nome">Tag 2 Pares</h3>
+					<p class="prod-desc-curta">Formato 4x3 cm</p>
+					<p class="prod-a-partir">a partir de <strong>R$ 128,00</strong></p>
+
+					<div class="dados-modal" style="display: none">
+						<div class="m-desc">
+							Apresentação limpa para dupla de brincos. Furos milimetricamente
+							calculados para peças do dia a dia.
+						</div>
+						<ul class="m-specs">
+							<li><strong>Papel:</strong> Couchê 250g</li>
+							<li><strong>Impressão:</strong> Frente e verso</li>
+							<li><strong>Acabamento:</strong> Furação Dupla</li>
+							<li><strong>Tamanho:</strong> 4x3 cm</li>
+						</ul>
+						<div class="m-opcoes">
+							<option value="0.00" disabled selected>
+								Escolha a quantidade...
+							</option>
+							<option value="128.00" data-qtd="100 un">
+								100 unidades - R$ 128,00
+							</option>
+							<option value="150.00" data-qtd="200 un">
+								200 unidades - R$ 150,00
+							</option>
+							<option value="174.00" data-qtd="500 un">
+								500 unidades - R$ 174,00
+							</option>
+							<option value="200.00" data-qtd="1000 un">
+								1000 unidades - R$ 200,00
+							</option>
+						</div>
+					</div>
+					<button class="add-btn" onclick="abrirQuickView('prod-tag-2pares')">
+						Ver opções
+					</button>
+				</div>
+
+				<div class="produto" id="prod-tag-3pares-colar">
+					<img
+						src="img/tag 3 pares e colar.jpg"
+						alt="3 Pares e Colar"
+						class="produto-img"
+					/>
+					<h3 class="prod-nome">Tag 3 Pares + Colar</h3>
+					<p class="prod-desc-curta">Formato 9x5 cm</p>
+					<p class="prod-a-partir">a partir de <strong>R$ 150,00</strong></p>
+
+					<div class="dados-modal" style="display: none">
+						<div class="m-desc">
+							A cartela "vitrine". Espaço generoso que permite exibir um look
+							completo (mix de brincos e colar) na mesma embalagem.
+						</div>
+						<ul class="m-specs">
+							<li><strong>Papel:</strong> Couchê 250g</li>
+							<li><strong>Impressão:</strong> Frente e verso</li>
+							<li><strong>Acabamento:</strong> Furação múltipla</li>
+							<li><strong>Tamanho:</strong> 9x5 cm</li>
+						</ul>
+						<div class="m-opcoes">
+							<option value="0.00" disabled selected>
+								Escolha a quantidade...
+							</option>
+							<option value="150.00" data-qtd="100 un">
+								100 unidades - R$ 150,00
+							</option>
+							<option value="174.00" data-qtd="250 un">
+								250 unidades - R$ 174,00
+							</option>
+							<option value="199.00" data-qtd="500 un">
+								500 unidades - R$ 199,00
+							</option>
+							<option value="220.00" data-qtd="1000 un">
+								1000 unidades - R$ 220,00
+							</option>
+						</div>
+					</div>
+					<button
+						class="add-btn"
+						onclick="abrirQuickView('prod-tag-3pares-colar')"
+					>
+						Ver opções
+					</button>
+				</div>
+
+				<div class="produto" id="prod-tag-cinturada">
+					<img
+						src="img/tag cinturada.jpg"
+						alt="Tag Cinturada"
+						class="produto-img"
+					/>
+					<h3 class="prod-nome">Tag Cinturada (Colar)</h3>
+					<p class="prod-desc-curta">Impressão só Frente, com vinco</p>
+					<p class="prod-a-partir">a partir de <strong>R$ 150,00</strong></p>
+
+					<div class="dados-modal" style="display: none">
+						<div class="m-desc">
+							Design especial em formato "cinta" dobrável. Abraça correntes e
+							pulseiras com segurança, ideal para expositores.
+						</div>
+						<ul class="m-specs">
+							<li><strong>Papel:</strong> Couchê 250g</li>
+							<li><strong>Impressão:</strong> Apenas Frente</li>
+							<li><strong>Acabamento:</strong> Corte cinturado com Vinco</li>
+							<li><strong>Tamanho:</strong> 8,8 x 4,8 cm</li>
+						</ul>
+						<div class="m-opcoes">
+							<option value="0.00" disabled selected>
+								Escolha a quantidade...
+							</option>
+							<option value="150.00" data-qtd="100 un">
+								100 unidades - R$ 150,00
+							</option>
+							<option value="174.00" data-qtd="250 un">
+								250 unidades - R$ 174,00
+							</option>
+							<option value="199.00" data-qtd="500 un">
+								500 unidades - R$ 199,00
+							</option>
+							<option value="220.00" data-qtd="1000 un">
+								1000 unidades - R$ 220,00
+							</option>
+						</div>
+					</div>
+					<button
+						class="add-btn"
+						onclick="abrirQuickView('prod-tag-cinturada')"
+					>
+						Ver opções
+					</button>
+				</div>
+			</div>
+			<div class="carrinho" id="area-carrinho">
+				<h2>Seu Pedido</h2>
+				<ul id="lista-carrinho">
+					<p class="vazio">Selecione os produtos ao lado para iniciar.</p>
+				</ul>
+				<div
+					id="linha-frete"
+					style="
+						display: none;
+						justify-content: space-between;
+						font-size: 0.9rem;
+						margin-bottom: 15px;
+						color: var(--text-light);
+						border-top: 1px dashed #eaeaea;
+						padding-top: 10px;
+					"
+				>
+					<span>Frete Fixo (Todo Brasil):</span>
+					<span>R$ 18,00</span>
+				</div>
+				<div class="total">
+					<span>Total:</span>
+					<span id="valor-total">R$ 0,00</span>
+				</div>
+				<button class="checkout-btn" onclick="finalizarNoWhatsApp()">
+					Finalizar no WhatsApp
+				</button>
+			</div>
+		</div>
+
+		<div id="modal-vazio" class="modal-overlay">
+			<div class="modal-content">
+				<h3>Ops! Faltou o pedido</h3>
+				<p>Selecione pelo menos um produto antes de finalizar a sua compra.</p>
+				<button class="fechar-btn" onclick="fecharModal()">Entendi</button>
+			</div>
+		</div>
+
+		<div id="modal-quantidade" class="modal-overlay" style="z-index: 3000">
+			<div class="modal-content">
+				<h3>Faltou a quantidade</h3>
+				<p>
+					Por favor, selecione uma opção de quantidade antes de adicionar ao
+					carrinho.
+				</p>
+				<button class="fechar-btn" onclick="fecharModalQtd()">Entendi</button>
+			</div>
+		</div>
+
+		<div
+			id="quickview-modal"
+			class="quickview-overlay"
+			onclick="fecharQuickView()"
+		>
+			<div class="quickview-content" onclick="event.stopPropagation()">
+				<button class="quickview-close" onclick="fecharQuickView()">✕</button>
+				<div class="quickview-img-area">
+					<img id="qv-img" src="" alt="Produto" />
+				</div>
+				<div class="quickview-info">
+					<h3 id="qv-titulo">Nome do Produto</h3>
+					<p id="qv-desc">Descrição do produto.</p>
+
+					<ul id="qv-specs" class="qv-specs-list"></ul>
+
+					<select id="qv-select" class="select-qtd"></select>
+					<button class="add-btn" onclick="adicionarDoQuickView()">
+						Adicionar ao Carrinho
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div id="modal-info" class="modal-overlay" style="z-index: 4000">
+			<div class="modal-content" style="max-width: 600px; text-align: left">
+				<h3 style="text-align: center; margin-bottom: 25px">Guia de Pedidos</h3>
+
+				<div
+					style="
+						font-size: 0.9rem;
+						color: var(--text-main);
+						max-height: 400px;
+						overflow-y: auto;
+						padding-right: 10px;
+					"
+				>
+					<p style="margin-bottom: 15px">
+						<strong>1. Prazos:</strong> Após a confirmação do pagamento,
+						enviamos a arte para aprovação em até 3 dias úteis. Após aprovado, o
+						prazo de produção na gráfica é de até 5 dias úteis + prazo dos
+						correios.
+					</p>
+
+					<p style="margin-bottom: 15px">
+						<strong>2. Sobre o Logotipo:</strong> Para garantir a nitidez, é
+						necessário que você já possua um logotipo em vetor (PDF ou AI) ou
+						PNG em alta resolução. Este valor não inclui a criação de logotipo.
+					</p>
+
+					<p style="margin-bottom: 15px">
+						<strong>3. Pagamento:</strong> Iniciamos o processo de design após a
+						confirmação de 100% do valor ou sinal de 50% via PIX.
+					</p>
+
+					<p style="margin-bottom: 15px">
+						<strong>4. Fidelidade de Cores:</strong> Os impressos podem
+						apresentar variação de intensidade e tonalidade de até 10% em
+						relação ao monitor ou tela do celular. Isso é normal no processo
+						gráfico.
+					</p>
+				</div>
+
+				<button
+					class="fechar-btn"
+					onclick="fecharModalInfo()"
+					style="width: 100%; margin-top: 25px"
+				>
+					Entendi, vamos às compras!
+				</button>
+			</div>
+		</div>
+		<a href="#area-carrinho" id="btn-flutuante-carrinho">
+			🛍️ Ver Pedido (<span id="qtd-flutuante">0</span>)
+		</a>
+
+		<script>
+			let carrinho = []
+
+			function adicionarAoCarrinho(nome, preco) {
+				carrinho.push({ nome, preco })
+				atualizarInterface()
+			}
+
+			function removerDoCarrinho(index) {
+				carrinho.splice(index, 1)
+				atualizarInterface()
+			}
+
+			function atualizarInterface() {
+				const lista = document.getElementById('lista-carrinho')
+				const valorTotal = document.getElementById('valor-total')
+				const linhaFrete = document.getElementById('linha-frete')
+
+				// Puxa os elementos do botão flutuante
+				const btnFlutuante = document.getElementById('btn-flutuante-carrinho')
+				const qtdFlutuante = document.getElementById('qtd-flutuante')
+
+				lista.innerHTML = ''
+
+				if (carrinho.length === 0) {
+					lista.innerHTML =
+						'<p class="vazio">Selecione os produtos ao lado para iniciar.</p>'
+					linhaFrete.style.display = 'none'
+					valorTotal.innerText = 'R$ 0,00'
+
+					// Esconde o botão flutuante se esvaziar o carrinho
+					btnFlutuante.classList.remove('mostrar')
+				} else {
+					let subtotal = 0
+					carrinho.forEach((item, index) => {
+						subtotal += item.preco
+						const li = document.createElement('li')
+						li.className = 'item-carrinho'
+						li.innerHTML = `
+              <div>
+                <span>1x ${item.nome}</span>
+                <button class="remove-btn" onclick="removerDoCarrinho(${index})">remover</button>
+              </div>
+              <span>R$ ${item.preco.toFixed(2).replace('.', ',')}</span>
+            `
+						lista.appendChild(li)
+					})
+
+					linhaFrete.style.display = 'flex'
+					const totalFinal = subtotal + 18.0
+					valorTotal.innerText = `R$ ${totalFinal.toFixed(2).replace('.', ',')}`
+
+					// Mostra o botão flutuante e atualiza a quantidade
+					btnFlutuante.classList.add('mostrar')
+					qtdFlutuante.innerText = carrinho.length
+				}
+			}
+
+			function abrirModal() {
+				const modal = document.getElementById('modal-vazio')
+				modal.style.display = 'flex'
+				setTimeout(() => modal.classList.add('ativo'), 10)
+			}
+
+			function fecharModal() {
+				const modal = document.getElementById('modal-vazio')
+				modal.classList.remove('ativo')
+				setTimeout(() => (modal.style.display = 'none'), 300)
+			}
+
+			// Funções do Modal de Quantidade
+			function abrirModalQtd() {
+				const modal = document.getElementById('modal-quantidade')
+				modal.style.display = 'flex'
+				setTimeout(() => modal.classList.add('ativo'), 10)
+			}
+
+			function fecharModalQtd() {
+				const modal = document.getElementById('modal-quantidade')
+				modal.classList.remove('ativo')
+				setTimeout(() => (modal.style.display = 'none'), 300)
+			}
+
+			function finalizarNoWhatsApp() {
+				if (carrinho.length === 0) {
+					abrirModal()
+					return
+				}
+
+				const numeroWhatsApp = '5548996620809'
+				let subtotal = 0
+				let textoMensagem = 'Olá! Gostaria de fazer o seguinte pedido:\n\n'
+
+				carrinho.forEach((item) => {
+					textoMensagem += `• 1x ${item.nome} - R$ ${item.preco
+						.toFixed(2)
+						.replace('.', ',')}\n`
+					subtotal += item.preco
+				})
+
+				const totalFinal = subtotal + 18.0
+				textoMensagem += `• Frete Fixo Brasil - R$ 18,00\n`
+				textoMensagem += `\n*Valor Total: R$ ${totalFinal
+					.toFixed(2)
+					.replace('.', ',')}*\n\nComo fazemos para dar continuidade?`
+
+				const linkWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(
+					textoMensagem,
+				)}`
+				window.open(linkWhatsApp, '_blank')
+			}
+
+			// --- Funções do Quick View ---
+			function abrirQuickView(idProduto) {
+				const card = document.getElementById(idProduto)
+
+				const imgSrc = card.querySelector('.produto-img').src
+				const nome = card.querySelector('.prod-nome').innerText
+				const desc = card.querySelector('.m-desc').innerHTML
+				const specs = card.querySelector('.m-specs').innerHTML
+				const opcoes = card.querySelector('.m-opcoes').innerHTML
+
+				document.getElementById('qv-img').src = imgSrc
+				document.getElementById('qv-titulo').innerText = nome
+				document.getElementById('qv-desc').innerHTML = desc
+				document.getElementById('qv-specs').innerHTML = specs
+				document.getElementById('qv-select').innerHTML = opcoes
+
+				const modal = document.getElementById('quickview-modal')
+				modal.style.display = 'flex'
+				setTimeout(() => modal.classList.add('ativo'), 10)
+			}
+
+			function fecharQuickView() {
+				const modal = document.getElementById('quickview-modal')
+				modal.classList.remove('ativo')
+				setTimeout(() => (modal.style.display = 'none'), 300)
+			}
+
+			function adicionarDoQuickView() {
+				const select = document.getElementById('qv-select')
+				const preco = parseFloat(select.value)
+
+				if (isNaN(preco) || preco === 0) {
+					abrirModalQtd()
+					return
+				}
+
+				const nomeBase = document.getElementById('qv-titulo').innerText
+				const qtdText =
+					select.options[select.selectedIndex].getAttribute('data-qtd')
+				const nomeFinal = `${nomeBase} (${qtdText})`
+
+				adicionarAoCarrinho(nomeFinal, preco)
+				fecharQuickView()
+			}
+
+			// Funções do Modal Informativo
+			function abrirModalInfo() {
+				const modal = document.getElementById('modal-info')
+				modal.style.display = 'flex'
+				setTimeout(() => modal.classList.add('ativo'), 10)
+			}
+
+			function fecharModalInfo() {
+				const modal = document.getElementById('modal-info')
+				modal.classList.remove('ativo')
+				setTimeout(() => (modal.style.display = 'none'), 300)
+			}
+		</script>
+	</body>
+</html>
